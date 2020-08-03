@@ -2,8 +2,13 @@
   <div id="app">
     <!-- <img alt="Vue logo" src="./assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-    <h1>{{name}} tiene:</h1>
+    <p>
+      <input class="controls" v-model="name" type="text" placeholder="Nombre de Usuario"/>
+      <button class="boton" @click="cargar_datos">Cargar</button>
+    </p>
+    
     <div class="wrap">
+      <h1>{{name}} tiene:</h1>
       <p>Repositorios: {{repos}}</p>
       <p>Followers: {{follow}}</p>
       <p>Following: {{following}}</p>
@@ -23,7 +28,7 @@ export default {
   },
   data(){
     return{
-      name: '',
+      name: 'MichellePF',
       repos: 0,
       follow: 0,
       following: 0,
@@ -31,24 +36,24 @@ export default {
     }
   },
   methods: {
+    cargar_datos(){
+      this.axios.get(`https://api.github.com/users/${this.name}`)
+      .then((datos) => {
+        const user = datos.data;
+        this.name = user.login;
+        this.repos = user.public_repos;
+        this.follow = user.followers;
+        this.following = user.following;
+        this.gists = user.public_gists;
+      })
+      .catch((error)=>{
+        alert(error);
+      })
+    },
     suma(){
       let total = this.repos + this.follow + this.following + this.gists
       return total;
     }
-  },
-  mounted(){
-    this.axios.get("https://api.github.com/users/MichellePF")
-    .then((datos) => {
-      const michelle = datos.data;
-      this.name = michelle.login;
-      this.repos = michelle.public_repos;
-      this.follow = michelle.followers;
-      this.following = michelle.following;
-      this.gists = michelle.public_gists;
-    })
-    .catch((error)=>{
-      alert(error);
-    })
   }
 }
 
@@ -65,14 +70,40 @@ export default {
 }
 
 .wrap {
-    margin: auto;
-    height: auto;
-    width: 800px;
-    text-align: center;
-    border: 2px solid black;
-    font-size: 25px;
+  margin: auto;
+  height: auto;
+  width: 800px;
+  text-align: center;
+  border: 5px solid black;
+  font-size: 25px;
+  background: lightseagreen;
+  color: white;
+
 }
-ul {
-    list-style: none;
+.boton {
+  width: 20%;
+  background: #1f53c5;
+  border: none;
+  padding: 12px;
+  color: white;
+  margin: 16px 0;
+  font-size: 16px;
 }
+
+.boton:hover {
+  background: green;
+}
+
+.controls {
+  width: 25%;
+  background: #24303c;
+  padding: 10px;
+  border-radius: 4px;
+  margin: 16px;
+  border: 1px solid #1f53c5;
+  font-family: 'calibri';
+  font-size: 18px;
+  color: white;
+}
+
 </style>
