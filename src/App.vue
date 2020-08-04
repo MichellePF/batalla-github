@@ -28,7 +28,7 @@ export default {
   },
   data(){
     return{
-      name: '',
+      name: 'MichellePF',
       repos: 0,
       follow: 0,
       following: 0,
@@ -54,6 +54,9 @@ export default {
       let total = this.repos + this.follow + this.following + this.gists
       return total;
     }
+  },
+  mounted (){
+    this.cargar_datos();
   }
 }
 
