@@ -28,7 +28,7 @@ export default {
   },
   data(){
     return{
-      name: 'MichellePF',
+      name: '',
       repos: 0,
       follow: 0,
       following: 0,
